@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React 项目运行原理解析</title>
+  </head>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <body>
+    <!-- 1、引入React 依赖 -->
+    <div id="container"></div>
+  </body>
+  <script>
+    const createElement = React.createElement
+    // 2. 创建 React 组件
+    function Container() {
+      return createElement(
+        'h1',
+        {
+          onClick: () => {
+            alert('hello')
+          },
+        },
+        'hello react',
+      )
+    }
+    // 3. 生成 VDOM
+    const container = document.getElementById('container')
+    const root = window.ReactDOM.createRoot(container)
+    // 4. 渲染VDOM
+    root.render(createElement(Container))
+  </script>
+</html>
