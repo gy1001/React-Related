@@ -13,7 +13,7 @@ import {
 import IconClose from '../assets/images/icon_close_modal.png';
 import {getUUid} from '../utils/uuid';
 import {getStorage, saveStorage} from '../utils/storage';
-
+import {typesArray} from '../utils/constants';
 const styles = StyleSheet.create({
   root: {
     width: '100%',
@@ -42,6 +42,7 @@ export default forwardRef(function AddAccountModal(props, ref) {
   const [accountPassword, setAccountPassword] = useState('');
   const [id, setId] = useState(0);
   const show = () => {
+    console.log(1111);
     setModalVisible(true);
     setId(getUUid);
   };
@@ -138,7 +139,6 @@ export default forwardRef(function AddAccountModal(props, ref) {
         color: 'white',
       },
     });
-    const typesArray = ['游戏', '平台', '银行卡', '其他'];
     return (
       <View style={typeStyles.typesLayout}>
         {typesArray.map((item, index) => {
@@ -190,7 +190,8 @@ export default forwardRef(function AddAccountModal(props, ref) {
           setAccountName(text || '');
         }}
         placeholder="请输入账户名称"
-        style={nameStyles.textInput}></TextInput>
+        style={nameStyles.textInput}
+      />
     );
   };
 
@@ -215,7 +216,8 @@ export default forwardRef(function AddAccountModal(props, ref) {
           setAccountCode(text || '');
         }}
         placeholder="请输入账号"
-        style={nameStyles.textInput}></TextInput>
+        style={nameStyles.textInput}
+      />
     );
   };
 
@@ -240,7 +242,8 @@ export default forwardRef(function AddAccountModal(props, ref) {
           setAccountPassword(text || '');
         }}
         placeholder="请输入密码"
-        style={nameStyles.textInput}></TextInput>
+        style={nameStyles.textInput}
+      />
     );
   };
 
@@ -264,7 +267,8 @@ export default forwardRef(function AddAccountModal(props, ref) {
     const handleSaveAccount = () => {
       const newAccount = {
         id: id,
-        type: tabIndex,
+        tabIndex: tabIndex,
+        tabType: typesArray[tabIndex],
         name: accountName,
         account: accountCode,
         password: accountPassword,
