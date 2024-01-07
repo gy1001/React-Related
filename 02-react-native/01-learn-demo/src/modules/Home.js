@@ -1,5 +1,7 @@
-import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {useRef} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import IconAdd from '../assets/images/icon_add.png';
+import AddAccountModal from '../components/AddAccountModal';
 
 const styles = StyleSheet.create({
   root: {
@@ -18,15 +20,37 @@ const styles = StyleSheet.create({
     color: '#333',
     fontWeight: 'bold',
   },
+  addBtn: {
+    position: 'absolute',
+    bottom: 64,
+    right: 28,
+  },
+  iconAdd: {
+    width: 56,
+    height: 56,
+    resizeMode: 'contain',
+  },
 });
 export default () => {
   const renderTitle = () => {
     // 这里应该返回一个标题组件
     return (
       <View style={styles.titleLayout}>
-        <Text style={styles.titleTxt}>标题</Text>
+        <Text style={styles.titleTxt}>账号管理</Text>
       </View>
     );
   };
-  return <View style={styles.root}>{renderTitle()}</View>;
+  const addCountModalRef = useRef(null);
+  return (
+    <View style={styles.root}>
+      {renderTitle()}
+      <TouchableOpacity
+        onPress={() => addCountModalRef.current.show()}
+        style={styles.addBtn}
+        activeOpacity={0.5}>
+        <Image style={styles.iconAdd} source={IconAdd}></Image>
+      </TouchableOpacity>
+      <AddAccountModal ref={addCountModalRef}></AddAccountModal>
+    </View>
+  );
 };
