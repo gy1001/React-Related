@@ -21,11 +21,12 @@ const styles = StyleSheet.create({
 });
 export default () => {
   const renderTitle = () => {
+    // 这里应该返回一个标题组件
     return (
       <View style={styles.titleLayout}>
         <Text style={styles.titleTxt}>标题</Text>
       </View>
-    ); // 这里应该返回一个标题组件
+    );
   };
   return <View style={styles.root}>{renderTitle()}</View>;
 };
