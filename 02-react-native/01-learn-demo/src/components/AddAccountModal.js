@@ -11,6 +11,8 @@ import {
   Platform,
 } from 'react-native';
 import IconClose from '../assets/images/icon_close_modal.png';
+import {getUUid} from '../utils/uuid';
+import {getStorage, saveStorage} from '../utils/storage';
 
 const styles = StyleSheet.create({
   root: {
@@ -38,8 +40,10 @@ export default forwardRef(function AddAccountModal(props, ref) {
   const [accountName, setAccountName] = useState('');
   const [accountCode, setAccountCode] = useState('');
   const [accountPassword, setAccountPassword] = useState('');
+  const [id, setId] = useState(0);
   const show = () => {
     setModalVisible(true);
+    setId(getUUid);
   };
   const hide = () => {
     setModalVisible(false);
@@ -257,8 +261,25 @@ export default forwardRef(function AddAccountModal(props, ref) {
         fontWeight: 'bold',
       },
     });
+    const handleSaveAccount = () => {
+      const newAccount = {
+        id: id,
+        type: tabIndex,
+        name: accountName,
+        account: accountCode,
+        password: accountPassword,
+      };
+      getStorage('accountList').then(result => {
+        const newAccountList = result ? JSON.parse(result) : [];
+        newAccountList.push(newAccount);
+        saveStorage('accountList', JSON.stringify(newAccountList)).then(() => {
+          console.log('保存成功');
+        });
+        hide();
+      });
+    };
     return (
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
+      <TouchableOpacity style={styles.button} onPress={handleSaveAccount}>
         <Text style={styles.saveText}>保存</Text>
       </TouchableOpacity>
     );
