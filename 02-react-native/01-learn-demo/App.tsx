@@ -17,11 +17,10 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import AnimateMenu from './src/components/AnimateMenu';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+// import AnimateMenu from './src/components/AnimateMenu';
 // import AnimateMenuAnswer from './src/components/AnimateMenuAnswer';
+import AccountManager from './src/components/AccountManager';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -80,7 +79,7 @@ function App(): React.JSX.Element {
         </View>
       </ScrollView> */}
       {/* <AnimateMenuAnswer /> */}
-      <AnimateMenu />
+      <AccountManager />
     </SafeAreaView>
   );
 }
