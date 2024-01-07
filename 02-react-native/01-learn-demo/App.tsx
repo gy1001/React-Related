@@ -17,9 +17,7 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AnimateMenu from './src/components/AnimateMenu';
 // import AnimateMenuAnswer from './src/components/AnimateMenuAnswer';
 
