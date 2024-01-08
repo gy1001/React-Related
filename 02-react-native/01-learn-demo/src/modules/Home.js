@@ -14,6 +14,7 @@ import IconGame from '../assets/images/icon_game.png';
 import IconPlatform from '../assets/images/icon_platform.png';
 import IconOther from '../assets/images/icon_other.png';
 import IconBank from '../assets/images/icon_bank.png';
+import IconArrow from '../assets/images/icon_arrow.png';
 
 const styles = StyleSheet.create({
   root: {
@@ -43,14 +44,8 @@ const styles = StyleSheet.create({
     height: 56,
     resizeMode: 'contain',
   },
-  groupHeader: {
-    width: '100%',
-    height: 46,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    paddingHorizontal: 12,
+  contentContainerStyle: {
+    paddingHorizontal: 16,
   },
 });
 
@@ -80,18 +75,83 @@ export default () => {
     });
   }, []);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({item, index, section}) => {
+    const itemStyles = StyleSheet.create({
+      layout: {
+        width: '100%',
+        paddingHorizontal: 12,
+        paddingVertical: 12,
+        backgroundColor: '#fff',
+        borderTopWidth: 1,
+        borderColor: '#e0e0e0',
+      },
+      text: {
+        fontSize: 16,
+        color: '#333',
+      },
+      accPwdLayout: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 12,
+        marginBottom: 6,
+      },
+      accPwdText: {
+        flex: 1,
+        fontSize: 14,
+        color: '#666',
+      },
+    });
     return (
-      <View>
-        <Text>111</Text>
+      <View style={itemStyles.layout}>
+        <Text style={itemStyles.text}>{item.name}</Text>
+        <View style={itemStyles.accPwdLayout}>
+          <Text style={itemStyles.accPwdText}> 账号：{item.account}</Text>
+          <Text style={itemStyles.accPwdText}> 密码：{item.password}</Text>
+        </View>
       </View>
     );
   };
 
   const renderSectionHeader = ({section}) => {
+    const headerStyles = StyleSheet.create({
+      groupHeader: {
+        width: '100%',
+        height: 46,
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
+        paddingHorizontal: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 12,
+      },
+      icon: {
+        width: 24,
+        height: 24,
+        resizeMode: 'contain',
+      },
+      text: {
+        fontSize: 16,
+        color: '#333',
+        fontWeight: '600',
+        marginLeft: 12,
+        textAlignVertical: 'center',
+        height: '100%',
+      },
+      arrowBtn: {
+        position: 'absolute',
+        right: 0,
+        padding: 16,
+      },
+    });
     return (
-      <View style={styles.groupHeader}>
-        <Text>{section.name}</Text>
+      <View style={headerStyles.groupHeader}>
+        <Image style={headerStyles.icon} source={IconPlatform}></Image>
+        <Text style={headerStyles.text}>{section.name}</Text>
+        <TouchableOpacity style={headerStyles.arrowBtn}>
+          <Image style={headerStyles.icon} source={IconArrow}></Image>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -112,6 +172,7 @@ export default () => {
         renderSectionHeader={renderSectionHeader}
         keyExtractor={(item, index) => `${item}-${index}`}
         renderItem={renderItem}
+        contentContainerStyle={styles.contentContainerStyle}
       />
       <AddAccountModal ref={addCountModalRef} />
     </View>
