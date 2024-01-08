@@ -9,7 +9,11 @@ import {
 } from 'react-native';
 import IconAdd from '../assets/images/icon_add.png';
 import AddAccountModal from '../components/AddAccountModal';
-import {getStorage, removeStorage} from '../utils/storage';
+import {getStorage} from '../utils/storage';
+import IconGame from '../assets/images/icon_game.png';
+import IconPlatform from '../assets/images/icon_platform.png';
+import IconOther from '../assets/images/icon_other.png';
+import IconBank from '../assets/images/icon_bank.png';
 
 const styles = StyleSheet.create({
   root: {
@@ -77,7 +81,6 @@ export default () => {
   }, []);
 
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <View>
         <Text>111</Text>
@@ -102,14 +105,15 @@ export default () => {
         }}
         style={styles.addBtn}
         activeOpacity={0.5}>
-        <Image style={styles.iconAdd} source={IconAdd}></Image>
+        <Image style={styles.iconAdd} source={IconAdd} />
       </TouchableOpacity>
       <SectionList
         sections={accountList}
         renderSectionHeader={renderSectionHeader}
         keyExtractor={(item, index) => `${item}-${index}`}
-        renderItem={renderItem}></SectionList>
-      <AddAccountModal ref={addCountModalRef}></AddAccountModal>
+        renderItem={renderItem}
+      />
+      <AddAccountModal ref={addCountModalRef} />
     </View>
   );
 };

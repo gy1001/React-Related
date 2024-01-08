@@ -42,7 +42,6 @@ export default forwardRef(function AddAccountModal(props, ref) {
   const [accountPassword, setAccountPassword] = useState('');
   const [id, setId] = useState(0);
   const show = () => {
-    console.log(1111);
     setModalVisible(true);
     setId(getUUid);
   };

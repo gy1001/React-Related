@@ -1,5 +1,42 @@
 node_modules
 .gradle
-android/.gradle
-android/app/build/
-android/app/debug
+android/.gradle/
+android/app/build
+02-react-native/01-learn-demo/android/.gradle/8.3/executionHistory/executionHistory.lock
+__tests__
+.bundle/
+idea
+android/app/build
+.gradle
+**/build/
+
+*.apk
+*.ap_
+## Build generated
+build/
+DerivedData/
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Generated files
+bin/
+gen/
+out/
+
+.expo/*
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+android/
+*.orig.*
+web-build/
+android/
+web-report/
+# macOS
+.DS_Store
