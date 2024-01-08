@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   SectionList,
+  LayoutAnimation,
 } from 'react-native';
 import IconAdd from '../assets/images/icon_add.png';
 import AddAccountModal from '../components/AddAccountModal';
@@ -15,6 +16,13 @@ import IconPlatform from '../assets/images/icon_platform.png';
 import IconOther from '../assets/images/icon_other.png';
 import IconBank from '../assets/images/icon_bank.png';
 import IconArrow from '../assets/images/icon_arrow.png';
+
+const ImageIconObj = {
+  0: IconGame,
+  1: IconPlatform,
+  2: IconBank,
+  3: IconOther,
+};
 
 const styles = StyleSheet.create({
   root: {
@@ -60,6 +68,12 @@ export default () => {
   };
   const addCountModalRef = useRef(null);
   const [accountList, setAccountList] = useState([]);
+  const [sectionState, setSectionState] = useState({
+    0: false,
+    1: true,
+    2: true,
+    3: true,
+  });
 
   useEffect(() => {
     getStorage('accountList').then(res => {
@@ -67,7 +81,11 @@ export default () => {
       const resultObjList = [];
       accountResultList.forEach(item => {
         if (!resultObjList[item.tabIndex]) {
-          resultObjList[item.tabIndex] = {data: [], name: item.tabType};
+          resultObjList[item.tabIndex] = {
+            data: [],
+            name: item.tabType,
+            index: item.tabIndex,
+          };
         }
         resultObjList[item.tabIndex].data.push(item);
       });
@@ -76,6 +94,9 @@ export default () => {
   }, []);
 
   const renderItem = ({item, index, section}) => {
+    if (!sectionState[section.index]) {
+      return null;
+    }
     const itemStyles = StyleSheet.create({
       layout: {
         width: '100%',
@@ -84,6 +105,10 @@ export default () => {
         backgroundColor: '#fff',
         borderTopWidth: 1,
         borderColor: '#e0e0e0',
+      },
+      layoutActive: {
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
       },
       text: {
         fontSize: 16,
@@ -103,7 +128,11 @@ export default () => {
       },
     });
     return (
-      <View style={itemStyles.layout}>
+      <View
+        style={[
+          itemStyles.layout,
+          index === section.data.length - 1 ? itemStyles.layoutActive : '',
+        ]}>
         <Text style={itemStyles.text}>{item.name}</Text>
         <View style={itemStyles.accPwdLayout}>
           <Text style={itemStyles.accPwdText}> 账号：{item.account}</Text>
@@ -126,6 +155,10 @@ export default () => {
         alignItems: 'center',
         marginTop: 12,
       },
+      headerActive: {
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+      },
       icon: {
         width: 24,
         height: 24,
@@ -146,11 +179,38 @@ export default () => {
       },
     });
     return (
-      <View style={headerStyles.groupHeader}>
-        <Image style={headerStyles.icon} source={IconPlatform}></Image>
+      <View
+        style={[
+          headerStyles.groupHeader,
+          sectionState[section.index] ? '' : headerStyles.headerActive,
+        ]}>
+        <Image
+          style={headerStyles.icon}
+          source={ImageIconObj[section.index]}></Image>
         <Text style={headerStyles.text}>{section.name}</Text>
-        <TouchableOpacity style={headerStyles.arrowBtn}>
-          <Image style={headerStyles.icon} source={IconArrow}></Image>
+        <TouchableOpacity
+          style={headerStyles.arrowBtn}
+          onPress={() => {
+            const originSectionState = {...sectionState};
+            setSectionState({
+              ...originSectionState,
+              [section.index]: !originSectionState[section.index],
+            });
+            // 自动执行动画:当布局变化时，自动将视图运动到它们新的位置上。
+            LayoutAnimation.easeInEaseOut();
+          }}>
+          <Image
+            style={[
+              headerStyles.icon,
+              {
+                transform: [
+                  {
+                    rotate: sectionState[section.index] ? '0deg' : '-180deg',
+                  },
+                ],
+              },
+            ]}
+            source={IconArrow}></Image>
         </TouchableOpacity>
       </View>
     );
