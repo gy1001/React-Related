@@ -169,8 +169,6 @@ export default () => {
         color: '#333',
         fontWeight: '600',
         marginLeft: 12,
-        textAlignVertical: 'center',
-        height: '100%',
       },
       arrowBtn: {
         position: 'absolute',
