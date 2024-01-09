@@ -1,0 +1,7 @@
+node_modules
+02-react-native/01-learn-demo/android/local.properties
+.DS_Store
+android/.gradle
+android/.idea
+android/app/build
+android/local.properties
