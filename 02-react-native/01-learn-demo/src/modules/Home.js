@@ -132,7 +132,10 @@ export default () => {
       },
     });
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => {
+          addCountModalRef.current.show(item);
+        }}
         style={[
           itemStyles.layout,
           index === section.data.length - 1 ? itemStyles.layoutActive : '',
@@ -142,7 +145,7 @@ export default () => {
           <Text style={itemStyles.accPwdText}> 账号：{item.account}</Text>
           <Text style={itemStyles.accPwdText}> 密码：{item.password}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

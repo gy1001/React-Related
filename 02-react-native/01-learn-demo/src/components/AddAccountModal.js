@@ -41,9 +41,21 @@ export default forwardRef(function AddAccountModal(props, ref) {
   const [accountCode, setAccountCode] = useState('');
   const [accountPassword, setAccountPassword] = useState('');
   const [id, setId] = useState(0);
-  const show = () => {
+  const [isModify, setIsModify] = useState(false);
+
+  const show = currentAccount => {
+    if (currentAccount) {
+      setIsModify(true);
+      setId(currentAccount.id);
+      setTabIndex(currentAccount.tabIndex);
+      setAccountName(currentAccount.name);
+      setAccountCode(currentAccount.account);
+      setAccountPassword(currentAccount.password);
+    } else {
+      setId(getUUid);
+      setIsModify(false);
+    }
     setModalVisible(true);
-    setId(getUUid);
   };
   const hide = () => {
     setModalVisible(false);
@@ -82,8 +94,10 @@ export default forwardRef(function AddAccountModal(props, ref) {
     });
     return (
       <View style={titleStyles.layout}>
-        <Text style={titleStyles.titleText}>添加账号</Text>
-        <TouchableOpacity style={titleStyles.closeBtn}>
+        <Text style={titleStyles.titleText}>
+          {isModify ? '编辑账号' : '添加账号'}
+        </Text>
+        <TouchableOpacity onPress={hide} style={titleStyles.closeBtn}>
           <Image style={titleStyles.iconClose} source={IconClose} />
         </TouchableOpacity>
       </View>
@@ -274,10 +288,20 @@ export default forwardRef(function AddAccountModal(props, ref) {
         password: accountPassword,
       };
       getStorage('accountList').then(result => {
-        const newAccountList = result ? JSON.parse(result) : [];
-        newAccountList.push(newAccount);
+        let newAccountList = result ? JSON.parse(result) : [];
+        // 如果是编辑，就需要在保存前，先移除那个
+        if (isModify) {
+          newAccountList = newAccountList.map(item => {
+            if (item.id === id) {
+              return newAccount;
+            }
+            return item;
+          });
+        } else {
+          newAccountList.push(newAccount);
+        }
         saveStorage('accountList', JSON.stringify(newAccountList)).then(() => {
-          console.log('保存成功');
+          console.log('操作成功');
           hide();
           onSave();
         });
