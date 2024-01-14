@@ -11,3 +11,6 @@ Podfile.lock
 02-react-native/01-learn-demo/ios/.xcode.env.local
 02-react-native/01-learn-demo/.DS_Store
 ios/RNDemo.xcworkspace/contents.xcworkspacedata
+.idea
+__tests__
+.bundle
