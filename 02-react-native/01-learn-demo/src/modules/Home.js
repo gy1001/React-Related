@@ -76,6 +76,10 @@ export default () => {
   });
 
   useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = () => {
     getStorage('accountList').then(res => {
       const accountResultList = res ? JSON.parse(res) : [];
       const resultObjList = [];
@@ -91,7 +95,7 @@ export default () => {
       });
       setAccountList(resultObjList);
     });
-  }, []);
+  };
 
   const renderItem = ({item, index, section}) => {
     if (!sectionState[section.index]) {
@@ -232,7 +236,7 @@ export default () => {
         renderItem={renderItem}
         contentContainerStyle={styles.contentContainerStyle}
       />
-      <AddAccountModal ref={addCountModalRef} />
+      <AddAccountModal ref={addCountModalRef} onSave={loadData} />
     </View>
   );
 };

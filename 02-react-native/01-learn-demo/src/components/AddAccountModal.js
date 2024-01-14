@@ -48,6 +48,7 @@ export default forwardRef(function AddAccountModal(props, ref) {
   const hide = () => {
     setModalVisible(false);
   };
+  const {onSave} = props;
   // 将方法和属性暴露给父组件
   useImperativeHandle(ref, () => {
     return {
@@ -277,8 +278,9 @@ export default forwardRef(function AddAccountModal(props, ref) {
         newAccountList.push(newAccount);
         saveStorage('accountList', JSON.stringify(newAccountList)).then(() => {
           console.log('保存成功');
+          hide();
+          onSave();
         });
-        hide();
       });
     };
     return (
