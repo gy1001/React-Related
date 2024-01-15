@@ -7,15 +7,17 @@ import {
   Image,
   SectionList,
   LayoutAnimation,
+  Alert,
 } from 'react-native';
 import IconAdd from '../assets/images/icon_add.png';
 import AddAccountModal from '../components/AddAccountModal';
-import {getStorage} from '../utils/storage';
+import {getStorage, saveStorage, removeStorage} from '../utils/storage';
 import IconGame from '../assets/images/icon_game.png';
 import IconPlatform from '../assets/images/icon_platform.png';
 import IconOther from '../assets/images/icon_other.png';
 import IconBank from '../assets/images/icon_bank.png';
 import IconArrow from '../assets/images/icon_arrow.png';
+import {typesArray} from '../utils/constants';
 
 const ImageIconObj = {
   0: IconGame,
@@ -82,18 +84,28 @@ export default () => {
   const loadData = () => {
     getStorage('accountList').then(res => {
       const accountResultList = res ? JSON.parse(res) : [];
-      const resultObjList = [];
+      const resultObjList = Array.from(
+        {length: typesArray.length},
+        (el, index) => ({
+          data: [],
+          name: typesArray[index],
+          index: index,
+        }),
+      );
       accountResultList.forEach(item => {
-        if (!resultObjList[item.tabIndex]) {
-          resultObjList[item.tabIndex] = {
-            data: [],
-            name: item.tabType,
-            index: item.tabIndex,
-          };
-        }
         resultObjList[item.tabIndex].data.push(item);
       });
       setAccountList(resultObjList);
+    });
+  };
+
+  const deleteAccount = (account, index) => {
+    getStorage('accountList').then(res => {
+      let accountResultList = res ? JSON.parse(res) : [];
+      accountResultList.splice(index, 1);
+      saveStorage('accountList', JSON.stringify(accountResultList)).then(() => {
+        loadData();
+      });
     });
   };
 
@@ -131,10 +143,23 @@ export default () => {
         color: '#666',
       },
     });
+    const buttons = [
+      {
+        text: '取消',
+        onPress: () => {},
+      },
+      {
+        text: '确定',
+        onPress: () => deleteAccount(item, index),
+      },
+    ];
     return (
       <TouchableOpacity
         onPress={() => {
           addCountModalRef.current.show(item);
+        }}
+        onLongPress={() => {
+          Alert.alert('提示', `确定要删除账号『${item.name}』吗`, buttons);
         }}
         style={[
           itemStyles.layout,
