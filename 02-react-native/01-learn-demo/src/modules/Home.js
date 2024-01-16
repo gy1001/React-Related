@@ -95,15 +95,19 @@ export default () => {
       accountResultList.forEach(item => {
         resultObjList[item.tabIndex].data.push(item);
       });
+      LayoutAnimation.easeInEaseOut();
       setAccountList(resultObjList);
     });
   };
 
-  const deleteAccount = (account, index) => {
+  const deleteAccount = account => {
     getStorage('accountList').then(res => {
       let accountResultList = res ? JSON.parse(res) : [];
-      accountResultList.splice(index, 1);
+      accountResultList = accountResultList.filter(
+        item => item.id !== account.id,
+      );
       saveStorage('accountList', JSON.stringify(accountResultList)).then(() => {
+        console.log('删除成功');
         loadData();
       });
     });
@@ -150,7 +154,7 @@ export default () => {
       },
       {
         text: '确定',
-        onPress: () => deleteAccount(item, index),
+        onPress: () => deleteAccount(item),
       },
     ];
     return (
