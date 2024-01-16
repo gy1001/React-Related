@@ -8,10 +8,11 @@ import {
   SectionList,
   LayoutAnimation,
   Alert,
+  Switch,
 } from 'react-native';
 import IconAdd from '../assets/images/icon_add.png';
 import AddAccountModal from '../components/AddAccountModal';
-import {getStorage, saveStorage, removeStorage} from '../utils/storage';
+import {getStorage, saveStorage} from '../utils/storage';
 import IconGame from '../assets/images/icon_game.png';
 import IconPlatform from '../assets/images/icon_platform.png';
 import IconOther from '../assets/images/icon_other.png';
@@ -37,11 +38,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   titleTxt: {
     fontSize: 18,
     color: '#333',
     fontWeight: 'bold',
+  },
+  switch: {
+    position: 'absolute',
+    right: 20,
   },
   addBtn: {
     position: 'absolute',
@@ -65,17 +71,23 @@ export default () => {
     return (
       <View style={styles.titleLayout}>
         <Text style={styles.titleTxt}>账号管理</Text>
+        <Switch
+          style={styles.switch}
+          value={passwordVisible}
+          onValueChange={value => setPasswordVisible(value)}
+        />
       </View>
     );
   };
   const addCountModalRef = useRef(null);
   const [accountList, setAccountList] = useState([]);
   const [sectionState, setSectionState] = useState({
-    0: false,
+    0: true,
     1: true,
     2: true,
     3: true,
   });
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -172,7 +184,9 @@ export default () => {
         <Text style={itemStyles.text}>{item.name}</Text>
         <View style={itemStyles.accPwdLayout}>
           <Text style={itemStyles.accPwdText}> 账号：{item.account}</Text>
-          <Text style={itemStyles.accPwdText}> 密码：{item.password}</Text>
+          <Text style={itemStyles.accPwdText}>
+            密码：{passwordVisible ? item.password : '********'}
+          </Text>
         </View>
       </TouchableOpacity>
     );
