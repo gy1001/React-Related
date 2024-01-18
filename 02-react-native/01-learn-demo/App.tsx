@@ -20,7 +20,8 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import AnimateMenu from './src/components/AnimateMenu';
 // import AnimateMenuAnswer from './src/components/AnimateMenuAnswer';
-import AccountManager from './src/components/AccountManager';
+// import AccountManager from './src/components/AccountManager';
+import RootView from './src/components/RootView';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -79,7 +80,8 @@ function App(): React.JSX.Element {
         </View>
       </ScrollView> */}
       {/* <AnimateMenuAnswer /> */}
-      <AccountManager />
+      {/* <AccountManager /> */}
+      <RootView />
     </SafeAreaView>
   );
 }
