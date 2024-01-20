@@ -22,6 +22,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import AnimateMenuAnswer from './src/components/AnimateMenuAnswer';
 // import AccountManager from './src/components/AccountManager';
 import RootView from './src/components/RootView';
+import WithAddIcon from './src/components/HOC/withAddIcon';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -29,6 +30,7 @@ type SectionProps = PropsWithChildren<{
 
 function Section({children, title}: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+
   return (
     <View style={styles.sectionContainer}>
       <Text
@@ -59,7 +61,10 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
+  const WithAddIconHoc = WithAddIcon(RootView);
+  const handleClickAddIcon = () => {
+    console.log('click add icon');
+  };
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -81,7 +86,8 @@ function App(): React.JSX.Element {
       </ScrollView> */}
       {/* <AnimateMenuAnswer /> */}
       {/* <AccountManager /> */}
-      <RootView />
+      {/* <RootView /> */}
+      <WithAddIconHoc onAdd={handleClickAddIcon} />
     </SafeAreaView>
   );
 }
