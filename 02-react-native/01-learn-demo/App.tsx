@@ -23,7 +23,8 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import AccountManager from './src/components/AccountManager';
 // import RootView from './src/components/RootView';
 // import WithAddIcon from './src/components/HOC/withAddIcon';
-import InfoView from './src/components/InfoView';
+// import InfoView from './src/components/InfoView';
+import ListDemo from './src/components/memo/listDemo';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -89,7 +90,8 @@ function App(): React.JSX.Element {
       {/* <AccountManager /> */}
       {/* <RootView /> */}
       {/* <WithAddIconHoc onAdd={handleClickAddIcon} /> */}
-      <InfoView />
+      {/* <InfoView /> */}
+      <ListDemo />
     </SafeAreaView>
   );
 }
