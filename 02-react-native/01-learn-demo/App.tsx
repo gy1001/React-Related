@@ -21,8 +21,9 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import AnimateMenu from './src/components/AnimateMenu';
 // import AnimateMenuAnswer from './src/components/AnimateMenuAnswer';
 // import AccountManager from './src/components/AccountManager';
-import RootView from './src/components/RootView';
-import WithAddIcon from './src/components/HOC/withAddIcon';
+// import RootView from './src/components/RootView';
+// import WithAddIcon from './src/components/HOC/withAddIcon';
+import InfoView from './src/components/InfoView';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -61,10 +62,10 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const WithAddIconHoc = WithAddIcon(RootView);
-  const handleClickAddIcon = () => {
-    console.log('click add icon');
-  };
+  // const WithAddIconHoc = WithAddIcon(RootView);
+  // const handleClickAddIcon = () => {
+  //   console.log('click add icon');
+  // };
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -87,7 +88,8 @@ function App(): React.JSX.Element {
       {/* <AnimateMenuAnswer /> */}
       {/* <AccountManager /> */}
       {/* <RootView /> */}
-      <WithAddIconHoc onAdd={handleClickAddIcon} />
+      {/* <WithAddIconHoc onAdd={handleClickAddIcon} /> */}
+      <InfoView />
     </SafeAreaView>
   );
 }
