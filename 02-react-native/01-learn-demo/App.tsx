@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useRef} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -15,6 +15,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -24,7 +25,10 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import RootView from './src/components/RootView';
 // import WithAddIcon from './src/components/HOC/withAddIcon';
 // import InfoView from './src/components/InfoView';
-import ListDemo from './src/components/memo/listDemo';
+// import ListDemo from './src/components/memo/listDemo';
+// import CustomInput from './src/components/Ref/CustomInput';
+// import CustomInput2 from './src/components/Ref/CustomInput2';
+import CustomInput2Class from './src/components/Ref/CustomInput2Class';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -67,6 +71,14 @@ function App(): React.JSX.Element {
   // const handleClickAddIcon = () => {
   //   console.log('click add icon');
   // };
+
+  // const inputRef = useRef(null);
+  // const handleCustomInputFocus = () => {
+  //   console.log('handleCustomInputFocus');
+  //   inputRef.current?.focus();
+  // };
+
+  const inputRef = useRef(null);
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -91,7 +103,27 @@ function App(): React.JSX.Element {
       {/* <RootView /> */}
       {/* <WithAddIconHoc onAdd={handleClickAddIcon} /> */}
       {/* <InfoView /> */}
-      <ListDemo />
+      {/* <ListDemo /> */}
+      {/* <Button title="聚焦" onPress={handleCustomInputFocus} />
+      <CustomInput ref={inputRef} /> */}
+
+      <Button
+        title="聚焦"
+        onPress={() => {
+          if (inputRef.current && inputRef.current.selfFocus) {
+            inputRef.current.selfFocus();
+          }
+        }}
+      />
+      <Button
+        title="失焦"
+        onPress={() => {
+          if (inputRef.current) {
+            inputRef.current.selfBlur();
+          }
+        }}
+      />
+      <CustomInput2Class ref={inputRef} />
     </SafeAreaView>
   );
 }
