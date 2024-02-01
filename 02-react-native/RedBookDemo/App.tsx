@@ -29,21 +29,24 @@ function App(): React.JSX.Element {
       />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="PageA1"
+          initialRouteName="PageB"
           screenOptions={{
             cardStyle: {elevation: 1},
           }}>
           <Stack.Screen
-            name="PageA1"
+            name="PageA"
             component={PageA}
             options={{
               headerShown: false,
             }}
           />
           <Stack.Screen
-            name="PageB1"
+            name="PageB"
             component={PageB}
-            options={{...TransitionPresets.SlideFromRightIOS}}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
