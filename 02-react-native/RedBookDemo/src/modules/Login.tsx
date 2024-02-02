@@ -21,6 +21,8 @@ import IconEyeOpen from '../assets/icon_eye_open.png';
 import IconExchange from '../assets/icon_exchange.png';
 import IconWeixin from '../assets/icon_wx.png';
 import IconQQ from '../assets/icon_qq.webp';
+import {showToast} from '../utils/common';
+import {get} from '../utils/request';
 
 const OneKeyLogin = (props: any) => {
   const [selectedFlag, setSelectFlag] = useState(false);
@@ -250,6 +252,11 @@ const InputLoginView = (props: any) => {
     },
     loginBtn: {
       marginBottom: 10,
+      backgroundColor: '#007AFF',
+      borderRadius: 20,
+    },
+    disabledBtn: {
+      backgroundColor: '#ccc',
     },
     loginText: {
       textAlign: 'center',
@@ -257,8 +264,6 @@ const InputLoginView = (props: any) => {
       height: 40,
       lineHeight: 40,
       color: '#fff',
-      backgroundColor: '#007AFF',
-      borderRadius: 20,
     },
     agreeTips: {
       alignItems: 'flex-start',
@@ -295,6 +300,25 @@ const InputLoginView = (props: any) => {
   });
   const [showPsw, setShowPsw] = useState(false);
   const [selectedFlag, setSelectFlag] = useState(false);
+  const [userPhone, setUserPhone] = useState('');
+  const [usePwd, setUsePwd] = useState('');
+
+  const loginHandler = () => {
+    if (!userPhone || userPhone.length < 11 || !usePwd || usePwd.length < 6) {
+      showToast('请输入有效的手机号或者密码');
+      return;
+    }
+    get('/user/login', {
+      phone: userPhone,
+      password: usePwd,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   return (
     <View style={styles.root}>
       <TouchableOpacity
@@ -313,6 +337,10 @@ const InputLoginView = (props: any) => {
           maxLength={11}
           style={styles.phoneInput}
           placeholder="请输入手机号"
+          value={userPhone}
+          onChangeText={e => {
+            setUserPhone(e);
+          }}
         />
       </View>
       <View style={styles.phoneView}>
@@ -320,6 +348,8 @@ const InputLoginView = (props: any) => {
           style={styles.phoneInput}
           placeholder="输入密码"
           secureTextEntry={showPsw ? false : true}
+          value={usePwd}
+          onChangeText={e => setUsePwd(e)}
         />
         <TouchableOpacity
           onPress={() => {
@@ -336,7 +366,14 @@ const InputLoginView = (props: any) => {
         <Text style={[styles.tipsText, styles.tipsMiddle]}>验证码登录</Text>
         <Text style={styles.tipsText}>忘记密码?</Text>
       </View>
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity
+        onPress={loginHandler}
+        style={[
+          styles.loginBtn,
+          userPhone && userPhone.length === 11 && usePwd
+            ? styles.loginBtn
+            : styles.disabledBtn,
+        ]}>
         <Text style={styles.loginText}>登录</Text>
       </TouchableOpacity>
       <View style={styles.agreeTips}>
