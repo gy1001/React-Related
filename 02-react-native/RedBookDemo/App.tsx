@@ -11,8 +11,9 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
-import PageA from './src/modules/PageA';
-import PageB from './src/modules/PageB';
+import Welcome from './src/modules/Welcome';
+import Login from './src/modules/Login';
+
 const Stack = createStackNavigator();
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,20 +30,20 @@ function App(): React.JSX.Element {
       />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="PageB"
+          initialRouteName="Welcome"
           screenOptions={{
             cardStyle: {elevation: 1},
           }}>
           <Stack.Screen
-            name="PageA"
-            component={PageA}
+            name="Welcome"
+            component={Welcome}
             options={{
               headerShown: false,
             }}
           />
           <Stack.Screen
-            name="PageB"
-            component={PageB}
+            name="Login"
+            component={Login}
             options={{
               headerShown: false,
               ...TransitionPresets.SlideFromRightIOS,

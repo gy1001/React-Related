@@ -7,17 +7,20 @@ import {
   TouchableOpacity,
   Linking,
   TextInput,
+  LayoutAnimation,
 } from 'react-native';
 import MainLogoIcon from '../assets/icon_main_logo.png';
 import SelectIcon from '../assets/icon_selected.png';
 import UnSelectIcon from '../assets/icon_unselected.png';
 import IconArrow from '../assets/icon_arrow.png';
-import IconWeixin from '../assets/icon_wx_small.png';
+import IconWeixinSmall from '../assets/icon_wx_small.png';
 import IconClose from '../assets/icon_close_modal.png';
 import IconTriangle from '../assets/icon_triangle.png';
 import IconEyeClose from '../assets/icon_eye_close.png';
 import IconEyeOpen from '../assets/icon_eye_open.png';
 import IconExchange from '../assets/icon_exchange.png';
+import IconWeixin from '../assets/icon_wx.png';
+import IconQQ from '../assets/icon_qq.webp';
 
 const OneKeyLogin = (props: any) => {
   const [selectedFlag, setSelectFlag] = useState(false);
@@ -30,6 +33,7 @@ const OneKeyLogin = (props: any) => {
       alignItems: 'center',
       flexDirection: 'column',
       paddingHorizontal: 50,
+      paddingTop: 20,
     },
     mainLogo: {
       width: 200,
@@ -151,6 +155,7 @@ const OneKeyLogin = (props: any) => {
         <TouchableOpacity
           style={styles.otherTypeView}
           onPress={() => {
+            LayoutAnimation.easeInEaseOut();
             props.changeLoginType('inputType');
           }}>
           <Text style={styles.otherTypeText}>其他登录方式</Text>
@@ -158,7 +163,7 @@ const OneKeyLogin = (props: any) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.btnView, styles.wxBg]}>
-          <Image style={styles.btIcon} source={IconWeixin} />
+          <Image style={styles.btIcon} source={IconWeixinSmall} />
           <Text style={styles.btnText}>微信登录</Text>
         </TouchableOpacity>
 
@@ -176,6 +181,7 @@ const InputLoginView = (props: any) => {
       width: '100%',
       height: '100%',
       paddingHorizontal: 50,
+      paddingTop: 20,
     },
     closeIcon: {
       width: 25,
@@ -226,6 +232,7 @@ const InputLoginView = (props: any) => {
     tipsContainer: {
       flexDirection: 'row',
       alignItems: 'center',
+      marginBottom: 20,
     },
     iconExchange: {
       width: 15,
@@ -241,11 +248,62 @@ const InputLoginView = (props: any) => {
       flex: 2,
       marginLeft: 5,
     },
+    loginBtn: {
+      marginBottom: 10,
+    },
+    loginText: {
+      textAlign: 'center',
+      width: '100%',
+      height: 40,
+      lineHeight: 40,
+      color: '#fff',
+      backgroundColor: '#007AFF',
+      borderRadius: 20,
+    },
+    agreeTips: {
+      alignItems: 'flex-start',
+      flexDirection: 'row',
+      marginBottom: 50,
+    },
+    footerIcon: {
+      width: 15,
+      height: 15,
+      marginRight: 5,
+      resizeMode: 'contain',
+      marginTop: 3,
+    },
+    tipsTextContainer: {
+      fontSize: 12,
+      lineHeight: 20,
+    },
+    grayText: {
+      color: '#999',
+    },
+    protoText: {
+      color: '#333',
+    },
+    iconContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+    },
+    icon: {
+      width: 40,
+      height: 40,
+      resizeMode: 'contain',
+    },
   });
   const [showPsw, setShowPsw] = useState(false);
+  const [selectedFlag, setSelectFlag] = useState(false);
   return (
     <View style={styles.root}>
-      <Image style={styles.closeIcon} source={IconClose} />
+      <TouchableOpacity
+        onPress={() => {
+          LayoutAnimation.easeInEaseOut();
+          props.changeLoginType('oneKeyLogin');
+        }}>
+        <Image style={styles.closeIcon} source={IconClose} />
+      </TouchableOpacity>
       <Text style={styles.titleText}>密码登录</Text>
       <Text style={styles.titleTips}>未注册的手机号登录成功后将自动注册</Text>
       <View style={styles.phoneView}>
@@ -259,7 +317,6 @@ const InputLoginView = (props: any) => {
       </View>
       <View style={styles.phoneView}>
         <TextInput
-          maxLength={11}
           style={styles.phoneInput}
           placeholder="输入密码"
           secureTextEntry={showPsw ? false : true}
@@ -279,12 +336,33 @@ const InputLoginView = (props: any) => {
         <Text style={[styles.tipsText, styles.tipsMiddle]}>验证码登录</Text>
         <Text style={styles.tipsText}>忘记密码?</Text>
       </View>
+      <TouchableOpacity style={styles.loginBtn}>
+        <Text style={styles.loginText}>登录</Text>
+      </TouchableOpacity>
+      <View style={styles.agreeTips}>
+        <TouchableOpacity onPress={() => setSelectFlag(!selectedFlag)}>
+          <Image
+            style={styles.footerIcon}
+            source={selectedFlag ? SelectIcon : UnSelectIcon}
+          />
+        </TouchableOpacity>
+        <Text style={styles.tipsTextContainer}>
+          <Text style={styles.grayText}>我已阅读并同意</Text>
+          <Text style={styles.protoText}>《用户协议》</Text>
+          <Text style={styles.protoText}>《隐私政策》</Text>
+          <Text style={styles.protoText}>《儿童/青少年个人信息保护规则》</Text>
+        </Text>
+      </View>
+      <View style={styles.iconContainer}>
+        <Image style={styles.icon} source={IconWeixin} />
+        <Image style={styles.icon} source={IconQQ} />
+      </View>
     </View>
   );
 };
 
 export default () => {
-  const [loginType, setLoginType] = useState('inputType');
+  const [loginType, setLoginType] = useState('oneKeyLogin');
   return loginType === 'inputType' ? (
     <InputLoginView changeLoginType={setLoginType} />
   ) : (
